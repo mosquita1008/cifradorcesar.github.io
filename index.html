@@ -1,1 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta para ti</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fbe7e7, #f6f1eb);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            padding: 40px;
+        }
+
+        /* BOTÓN */
+        .button-container {
+            margin-bottom: 40px;
+            transition: opacity 0.5s ease;
+        }
+
+        .button-container.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .love-button {
+            padding: 18px 45px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 28px;
+            color: #fff;
+            background: linear-gradient(135deg, #e25555, #c94b4b);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(226, 85, 85, 0.4);
+        }
+
+        /* CARTA */
+        .card {
+            max-width: 750px;
+            background: #fff;
+            padding: 60px 55px;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            position: relative;
+            display: none;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .card.visible {
+            display: block;
+        }
+
+        .card::before {
+            content: "❤";
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 12px 18px;
+            border-radius: 50%;
+            font-size: 26px;
+            color: #e25555;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 30px;
+            color: #c94b4b;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: justify;
+            opacity: 0;
+            animation: none;
+        }
+
+        p.show {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .signature {
+            margin-top: 40px;
+            text-align: right;
+        }
+
+        .signature span {
+            font-family: 'Great Vibes', cursive;
+            font-size: 36px;
+            color: #c94b4b;
+        }
+
+        /* ANIMACIONES */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CORAZONES */
+        .floating-heart {
+            position: fixed;
+            bottom: -50px;
+            font-size: 30px;
+            color: #e25555;
+            animation: floatUp 4s ease-in forwards;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes floatUp {
+            to {
+                bottom: 110vh;
+                opacity: 0;
+                transform: translateX(var(--tx)) scale(0.5);
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            body { padding: 20px; }
+            .card { padding: 40px 25px; }
+            h1 { font-size: 32px; }
+            p { font-size: 15px; text-align: left; }
+            .love-button { font-size: 20px; padding: 14px 30px; }
+            .signature span { font-size: 28px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="hearts-container"></div>
+
+    <div class="button-container" id="buttonContainer">
+        <button class="love-button" id="loveButton">
+            con amor para ti mi niña hermosa ❤
+        </button>
+    </div>
+
+    <div class="card" id="card">
+        <h1>Para ti</h1>
+
+        <p>Hola, ¿cómo estás?</p>
+
+        <p>
+            Soy muy malo escribiendo cartas, nunca he sido bueno para esto, pero por ti me nacen las palabras de una forma que no me había pasado antes.
+        </p>
+
+        <p>
+            Quería decirte que te quiero mucho, de verdad. Estoy aquí para ti, siempre, en lo que necesites.
+        </p>
+
+        <p>
+            Tienes algo mágico que me enamora cada día más. Gracias por existir.
+        </p>
+
+        <div class="signature">
+            <p>Con cariño,</p>
+            <span>Andres Velez</span>
+        </div>
+    </div>
+
+<script>
+    const loveButton = document.getElementById('loveButton');
+    const buttonContainer = document.getElementById('buttonContainer');
+    const card = document.getElementById('card');
+    const heartsContainer = document.getElementById('hearts-container');
+
+    function createFloatingHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.textContent = '❤';
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.style.setProperty('--tx', (Math.random() - 0.5) * 100 + 'px');
+        heartsContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+    }
+
+    setInterval(createFloatingHeart, 700);
+
+    loveButton.addEventListener('click', () => {
+        card.classList.add('visible');
+        buttonContainer.classList.add('hidden');
+
+        const paragraphs = card.querySelectorAll('p');
+        paragraphs.forEach(p => p.classList.add('show'));
+
+        for (let i = 0; i < 6; i++) {
+            setTimeout(createFloatingHeart, i * 120);
+        }
+    });
+</script>
+
+</body>
+</html>
 
